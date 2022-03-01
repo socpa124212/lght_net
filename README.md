@@ -48,44 +48,6 @@ We optimized RainNet's parameters using 10 epochs with a mini batch of size 2. T
 
 The pretrained weights of the RainNet model are available on Zenodo: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3630429.svg)](https://doi.org/10.5281/zenodo.3630429).
 
-## Radar data
-
-We use the sample of the [RY product]() of the German Weather Service (DWD) as input data for training and validating the RainNet model. The RY product represents a quality-controlled rainfall-depth composite of 17 operational DWD Doppler radars. It has a spatial extent of 900x900 km, covers the whole area of Germany, and is available since 2006. The spatial and temporal resolution of the RY product is 1x1 km and 5 minutes, respectively.
-
-The sample data is available on Zenodo:
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3629951.svg)](https://doi.org/10.5281/zenodo.3629951)
-
-## Basic usage
-
-**Prerequisites**: 
-* Python 3.6+, 
-* Keras 2.2+, 
-* h5py 2.8
-* pretrained RainNet model (file `rainnet.h5`) and its weights (file `rainnet_weights.h5`) has to be downloaded from the corresponding [Zenodo repository](https://doi.org/10.5281/zenodo.3630429): [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3630429.svg)](https://doi.org/10.5281/zenodo.3630429)
-
-There are two scenarios of how to use the pretrained RainNet model.
-
-The first scenario allows you to load the RainNet's model architecture alongside pretrained weights using built-in `keras` `load_model` function:
-
-```python3
-from keras.models import load_model
-
-model = load_model("rainnet.h5")
-```
-
-The second scenario allows you to build the RainNet model from scratch using `rainnet` function from the module `rainnet.py` and then load pretrained weights stored in the file `rainnet_weights.h5`:
-
-```python3
-from rainnet import rainnet
-
-model = rainnet()
-
-model.load_weights("rainnet_weights.h5")
-```
-
-Having the RainNet model in place, you can then use built-in `keras` [`Model class API`](https://keras.io/models/model/), e.g., for running the RainNet model or evaluating its skill.
-
 Some available options are:
 * `model.predict(X)` -- runs the model with specified input data _X_ to obtain the corresponding nowcast.
 * `model.evaluate(X, y)` -- returns the loss value for the model in test mode. Here X stands for input data, and y specifies ground truth data. 
